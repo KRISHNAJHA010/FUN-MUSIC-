@@ -94,8 +94,8 @@ async def handle_query(message: types.Message):
     thumb_msg = await bot.send_photo(
         chat_id=message.chat.id,
         photo=thumb,
-        caption=f"🎵 <b>{title}</b>
-🔗 <a href='{url}'>Watch on YouTube</a>",
+        caption = f"""🎵 <b>{title}</b>
+🔗 <a href='{url}'>Watch on YouTube</a>"""
         parse_mode="HTML",
         reply_markup=types.InlineKeyboardMarkup(inline_keyboard=buttons)
     )
