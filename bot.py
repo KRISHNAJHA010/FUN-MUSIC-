@@ -64,12 +64,26 @@ async def my_playlist(message: types.Message):
 
 @dp.message_handler()
 async def handle_query(message: types.Message):
-    query = message.text
+    query = message.text.strip()
     search_msg = await message.reply("Searching...")
-    with YoutubeDL({"quiet": True}) as ydl:
+
+    ydl_opts = {
+        'quiet': True,
+        'noplaylist': True,
+        'format': 'bestaudio/best',
+        'default_search': 'ytsearch',
+        'skip_download': True
+    }
+
+    with YoutubeDL(ydl_opts) as ydl:
         try:
-            info = ydl.extract_info(f"ytsearch:{query}", download=False)['entries'][0]
-        except:
+            # Check if it's a YouTube link
+            if "youtube.com" in query or "youtu.be" in query:
+                info = ydl.extract_info(query, download=False)
+            else:
+                results = ydl.extract_info(query, download=False)
+                info = results['entries'][0] if 'entries' in results else results
+        except Exception as e:
             await search_msg.edit_text("No results found.")
             return
 
