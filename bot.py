@@ -57,7 +57,8 @@ async def my_playlist(message: types.Message):
     if not playlist:
         await message.reply("Your playlist is empty.")
     else:
-        text = "Your Playlist:
+        text = """Your Playlist:
+"""
 "
         for i, item in enumerate(playlist):
             text += f"{i+1}. {item['title']}
